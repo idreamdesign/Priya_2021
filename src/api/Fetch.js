@@ -1,9 +1,7 @@
-import {loadingStatus, logout} from '../redux/root.actions';
 import {SUCCESS, NODATAFOUND, SOMETHINGWENTWRONG} from '../utils/constants';
-import Colors from '../utils/theme';
 import Snackbar from 'react-native-snackbar';
 import Store from '../redux/store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import store from '../redux/store';
 import {CommonActions} from '@react-navigation/native';
 import * as RootNavigation from '../utils/RootNavigation';

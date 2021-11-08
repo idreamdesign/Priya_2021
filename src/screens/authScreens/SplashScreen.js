@@ -8,7 +8,7 @@ export const SplashScreen = (props) => {
 	React.useEffect(() => {
 		let isActive = true;
 		setTimeout(() => {
-			props.navigation.navigate('LoginScreen');
+			props.navigation.navigate('RoleSelectionScreen');
 		}, 1000);
 		return () => {
 			isActive = false;

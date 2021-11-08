@@ -32,6 +32,8 @@ import PreRecordedSubList from '../screens/otherscreens/category/prerecorded/Pre
 import PreRecordedView from '../screens/otherscreens/category/prerecorded/PreRecordedView';
 import GroupSubList from '../screens/otherscreens/category/group/GroupSubList';
 import TopicView from '../screens/otherscreens/TopicView';
+import RoleSelectionScreen from '../screens/authScreens/RoleSelectionScreen';
+import Dashboard from '../screens/otherscreens/ecom/Dashboard';
 const Stack = createStackNavigator();
 
 const RootNavigation = (props) => {
@@ -112,6 +114,20 @@ const RootNavigation = (props) => {
 			</TouchableOpacity>
 		);
 	};
+
+	//ECOMMERCE HEADER
+	const HeaderLeftEcom = ({ back }) => {
+		return (
+			<TouchableOpacity
+				style={{ padding: 15, flexDirection: 'row' }}
+				onPress={() => {
+					back ? navigation.goBack() : setisModalVisible(true);
+				}}
+			>
+				{getIcon('ion', back ? 'arrow-back' : 'menu', { color: 'white' }, 30)}
+			</TouchableOpacity>
+		);
+	};
 	const HeaderRight = ({ wishList }) => {
 		return (
 			<TouchableOpacity onPress={() => navigation.navigate('Notifications')} style={{ padding: 15 }}>
@@ -124,6 +140,12 @@ const RootNavigation = (props) => {
 			<Stack.Navigator initialRouteName="SplashScreen">
 				<Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
 				<Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="RoleSelectionScreen"
+					component={RoleSelectionScreen}
+					options={{ headerShown: false }}
+				/>
+
 				<Stack.Screen
 					name="RegisterScreen"
 					component={RegisterScreen}
@@ -385,6 +407,19 @@ const RootNavigation = (props) => {
 						headerTitleStyle: { color: appColors.white },
 						headerStyle: { backgroundColor: appColors.primaryColor },
 						headerLeft: () => <HeaderLeft back />
+					}}
+				/>
+				{/* //ECOMMERCE SCREENS */}
+				<Stack.Screen
+					name="Dashboard"
+					component={Dashboard}
+					options={{
+						headerShown: true,
+						headerTitle: 'Eat for your taste',
+						headerTitleStyle: { color: appColors.white },
+						headerStyle: { backgroundColor: appColors.primaryColor },
+						headerLeft: () => <HeaderLeftEcom />,
+						headerRight: () => <HeaderRight />
 					}}
 				/>
 			</Stack.Navigator>

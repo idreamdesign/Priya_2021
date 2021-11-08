@@ -98,6 +98,64 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		fontSize: 14,
 		color: appColors.smokyBlack
+	},
+	//ECOM HOME
+	offerText: {
+		color: appColors.smokyBlack,
+		fontSize: 20,
+		fontWeight: '500'
+	},
+	offerCard: {
+		borderWidth: 1,
+		borderColor: appColors.primaryColor,
+		borderRadius: 10,
+		padding: 5,
+		marginTop: 15,
+		maxWidth: 175,
+		alignItems: 'center'
+	},
+	offerImg: {
+		height: 100,
+		width: 150,
+		borderRadius: 10
+	},
+	offerPercent: {
+		marginTop: 5,
+		color: appColors.primaryColor,
+		fontSize: 18,
+		fontWeight: '700',
+		textAlign: 'center'
+	},
+	restName: {
+		marginTop: 5,
+		color: appColors.dimBlack,
+		fontSize: 16,
+		fontWeight: '600',
+		alignSelf: 'flex-start'
+	},
+	restContainer: {
+		width: '95%',
+		maxWidth: '90%',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	nearRestCard: {
+		borderWidth: 1,
+		borderColor: appColors.grey,
+		borderRadius: 5,
+		width: '30%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop: 15,
+		padding: 5
+	},
+	nearRestImg: {
+		height: 75,
+		width: '90%'
+	},
+	nearRestName: {
+		marginTop: 5,
+		fontSize: 14
 	}
 });
 
