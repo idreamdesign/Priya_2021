@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import appColors from '../../utils/appColors';
 
-const CustomInput = ({ style, placeHolder, helperText, helperTextStyles, onChange }) => {
+const CustomInput = ({ style, placeHolder, otherInputProps, helperText, helperTextStyles, onChange, initialValue }) => {
 	const styles = StyleSheet.create({
 		textInput: {
 			borderWidth: 1,
@@ -20,6 +20,9 @@ const CustomInput = ({ style, placeHolder, helperText, helperTextStyles, onChang
 	return (
 		<Fragment>
 			<TextInput
+				{...otherInputProps}
+				value={initialValue}
+				onChangeText={(text) => (onChange ? onChange(text) : console.log('HI'))}
 				placeholder={placeHolder ? placeHolder : ''}
 				style={style ? { ...style, ...styles.textInput } : { ...styles.textInput }}
 			/>

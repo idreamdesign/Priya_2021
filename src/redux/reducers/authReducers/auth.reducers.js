@@ -17,6 +17,10 @@ const authReducer = (state = initialState, action) => {
 
 		case Types.ROLE_SELECTED:
 			return { ...state, roleDetails: action.payload };
+		case Types.GRADE_LIST:
+			return { ...state, gradeDetails: action.payload };
+		case Types.CATEGORY_LIST:
+			return { ...state, categoryDetails: action.payload };
 
 		default:
 			return state;

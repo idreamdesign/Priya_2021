@@ -1,13 +1,50 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { View, Image, ImageBackground, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 import appImages from '../../assets';
-import { storeRoleDetails } from '../../redux/root.actions';
+import {
+	getCategories,
+	getGrades,
+	storeCategoryDetails,
+	storeGradeDetails,
+	storeRoleDetails
+} from '../../redux/root.actions';
 import store from '../../redux/store';
 import basicStyles from '../../styles/basicStyles';
 import styles from '../../styles/roleSelectioStyles';
+import { CATEGORYLIST, GRADELIST, ROLESELECTED } from '../../utils/constants';
 
 export const RoleSelectionScreen = (props) => {
+	React.useEffect(() => {
+		let isActive = true;
+		isActive && storeGrades();
+		return () => {
+			isActive = false;
+		};
+	}, []);
+	const storeGrades = async () => {
+		props.getGrades(
+			null,
+			async (res) => {
+				let gradeResponse = res.data;
+				gradeResponse.forEach((element) => ((element.label = element.title), (element.value = element.id)));
+				store.dispatch(storeGradeDetails(gradeResponse));
+				await AsyncStorage.setItem(GRADELIST, JSON.stringify(gradeResponse));
+			},
+			false
+		);
+		props.getCategories(
+			null,
+			async (res) => {
+				let categoryResponse = res.data;
+				categoryResponse.forEach((element) => ((element.label = element.title), (element.value = element.id)));
+				store.dispatch(storeCategoryDetails(categoryResponse));
+				await AsyncStorage.setItem(CATEGORYLIST, JSON.stringify(categoryResponse));
+			},
+			false
+		);
+	};
 	return (
 		<View style={{ ...basicStyles.container, alignItems: 'center', justifyContent: 'center' }}>
 			<Image source={appImages.appImages.LOGO1} style={styles.logoStyles} />
@@ -15,7 +52,8 @@ export const RoleSelectionScreen = (props) => {
 				<View style={styles.roleCard}>
 					<Image source={appImages.appImages.LMS} style={styles.roleImg} />
 					<TouchableOpacity
-						onPress={() => {
+						onPress={async () => {
+							await AsyncStorage.setItem(ROLESELECTED, 'lms');
 							store.dispatch(storeRoleDetails('lms'));
 							props.navigation.navigate('LoginScreen', { from: 'lms' });
 						}}
@@ -27,9 +65,10 @@ export const RoleSelectionScreen = (props) => {
 				<View style={styles.roleCard}>
 					<Image source={appImages.appImages.ECOM} style={styles.roleImg} />
 					<TouchableOpacity
-						onPress={() => {
-							store.dispatch(storeRoleDetails('ecom'));
-							props.navigation.navigate('LoginScreen', { from: 'ecom' });
+						onPress={async () => {
+							// await AsyncStorage.setItem(ROLESELECTED, 'ecom');
+							// store.dispatch(storeRoleDetails('ecom'));
+							// props.navigation.navigate('LoginScreen', { from: 'ecom' });
 						}}
 						style={styles.roleNameContainer}
 					>
@@ -41,8 +80,15 @@ export const RoleSelectionScreen = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => {
+	return {
+		getGrades: (requestData, onResponse, showSnackBar) => {
+			dispatch(getGrades(requestData, onResponse, showSnackBar));
+		},
+		getCategories: (requestData, onResponse, showSnackBar) => {
+			dispatch(getCategories(requestData, onResponse, showSnackBar));
+		}
+	};
+};
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RoleSelectionScreen);
+export default connect(null, mapDispatchToProps)(RoleSelectionScreen);

@@ -30,7 +30,7 @@ export const GroupClass = (props) => {
 									source={appImages.otherImages.ONETOONE}
 								/>
 								<View style={{ marginLeft: 10 }}>
-									<Text style={styles.onetoOneTitle}>class suject or title</Text>
+									<Text style={styles.onetoOneTitle}>class subject or title</Text>
 									<Text style={styles.onetoOneDesc}>10 chapter</Text>
 								</View>
 							</TouchableOpacity>

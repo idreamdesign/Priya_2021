@@ -14,6 +14,10 @@ target 'eLearningDjeli' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'RNCMaskedView', :path => '../node_modules/@react-native-masked-view/masked-view'
+
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
   target 'eLearningDjeliTests' do
     inherit! :complete
     # Pods for testing

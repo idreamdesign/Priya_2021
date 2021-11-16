@@ -9,36 +9,42 @@ import styles from '../../styles/HomeStyles';
 import appColors from '../../utils/appColors';
 import getIcon from '../../utils/commonfunctions/getIcon';
 import GradePopup from '../../components/GradePopup';
+import store from '../../redux/store';
 
 export const Home = (props) => {
+	const categories = store.getState().auth.categoryDetails;
+	console.log(categories, 'Categories');
 	const [ gradePopup, setGradePopup ] = useState(false);
 	const gradeOptions = [ 'Form 1', 'Form 2', 'Form 3' ];
 	const [ selectedGrade, setSelectedGrade ] = useState(null);
-	React.useEffect(() => {
-		let isActive = true;
-		BackHandler.addEventListener('hardwareBackPress', backAction);
+	const [ selectedGradeLabel, setSelectedGradeLabel ] = useState(null);
 
-		return () => {
-			BackHandler.removeEventListener('hardwareBackPress', backAction);
-			isActive = false;
-		};
-	}, []);
-	const backAction = () => {
-		Alert.alert('Exit', 'Are you sure you want to exit from the App?', [
-			{
-				text: 'Cancel',
-				onPress: () => null,
-				style: 'cancel'
-			},
-			{ text: 'YES', onPress: () => BackHandler.exitApp() }
-		]);
-		return true;
-	};
+	// React.useEffect(() => {
+	// 	let isActive = true;
+	// 	BackHandler.addEventListener('hardwareBackPress', backAction);
+
+	// 	return () => {
+	// 		BackHandler.removeEventListener('hardwareBackPress', backAction);
+	// 		isActive = false;
+	// 	};
+	// }, []);
+	// const backAction = () => {
+	// 	Alert.alert('Exit', 'Are you sure you want to exit from the App?', [
+	// 		{
+	// 			text: 'Cancel',
+	// 			onPress: () => null,
+	// 			style: 'cancel'
+	// 		},
+	// 		{ text: 'YES', onPress: () => BackHandler.exitApp() }
+	// 	]);
+	// 	return true;
+	// };
 	return (
 		<View style={basicStyles.container}>
 			<GradePopup
-				selectedGrade={selectedGrade}
-				onSelect={(option) => (setSelectedGrade(option), setGradePopup(false))}
+				onSelect={(option, label) => (
+					setSelectedGrade(option), setSelectedGradeLabel(label), setGradePopup(false)
+				)}
 				gradeOptions={gradeOptions}
 				visiblity={gradePopup}
 				onClose={() => setGradePopup(false)}
@@ -51,7 +57,9 @@ export const Home = (props) => {
 					<View style={styles.categoryHeading}>
 						<Text style={styles.categoryTitle}>Categories</Text>
 						<TouchableOpacity style={styles.selectGrade} onPress={() => setGradePopup(true)}>
-							<Text style={styles.selectGradeTxt}>{selectedGrade ? selectedGrade : 'Select Grade'}</Text>
+							<Text style={styles.selectGradeTxt}>
+								{selectedGrade ? selectedGradeLabel : 'Select Grade'}
+							</Text>
 							{getIcon('ion', 'chevron-down-outline', null, 16)}
 						</TouchableOpacity>
 					</View>
@@ -60,39 +68,22 @@ export const Home = (props) => {
 						showsHorizontalScrollIndicator={false}
 						contentContainerStyle={{ marginTop: 15 }}
 					>
-						<TouchableOpacity
-							onPress={() => props.navigation.navigate('OneToOne')}
-							style={styles.categoryCard}
-						>
-							<Text style={styles.categoryTitle}>1 to 1 class</Text>
-							<Image
-								resizeMode="stretch"
-								source={appImages.otherImages.ONETOONECLASS}
-								style={styles.categoryImg}
-							/>
-						</TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => props.navigation.navigate('PreRecordedSubList')}
-							style={styles.categoryCard}
-						>
-							<Text style={styles.categoryTitle}>Pre recorded class</Text>
-							<Image
-								resizeMode="stretch"
-								source={appImages.otherImages.PRERECORDEDCLASS}
-								style={styles.categoryImg}
-							/>
-						</TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => props.navigation.navigate('GroupClass')}
-							style={styles.categoryCard}
-						>
-							<Text style={styles.categoryTitle}>Group class</Text>
-							<Image
-								resizeMode="stretch"
-								source={appImages.otherImages.GROUPCLASS}
-								style={styles.categoryImg}
-							/>
-						</TouchableOpacity>
+						{categories.map((cat, i) => {
+							return (
+								<TouchableOpacity
+									key={i}
+									onPress={() => props.navigation.navigate('OneToOne')}
+									style={styles.categoryCard}
+								>
+									<Text style={styles.categoryTitle}>{cat.name}</Text>
+									<Image
+										resizeMode="stretch"
+										source={appImages.otherImages.ONETOONECLASS}
+										style={styles.categoryImg}
+									/>
+								</TouchableOpacity>
+							);
+						})}
 					</ScrollView>
 				</View>
 				<View style={styles.divisionalCard}>

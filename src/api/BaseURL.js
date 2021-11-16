@@ -1,3 +1,3 @@
 // Live BaseURL's
 
-export const BASE_URL = 'http://api.upcw.org/demosocialite/';
+export const BASE_URL = 'https://tamilupdates.in/lms/api/';

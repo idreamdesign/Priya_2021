@@ -16,7 +16,8 @@ const appColors = {
 	paleBlue: '#c3d8e6',
 	orange: 'orange',
 	dimGrey: '#ede8e8',
-	dimBlack: '#42454a'
+	dimBlack: '#42454a',
+	red: 'red'
 };
 
 export default appColors;

@@ -9,6 +9,7 @@ import Store from './src/redux/store';
 import * as RootNavigation from './src/utils/RootNavigation';
 import appColors from './src/utils/appColors';
 import BottomNavbar from './src/components/BottomNavbar';
+import EcomNavbar from './src/components/EcomNavbar';
 
 export default class App extends Component {
 	constructor(props) {
@@ -19,6 +20,7 @@ export default class App extends Component {
 
 		this.state = {
 			menuRoutes: [ 'Home', 'FavouriteList', 'Wallet', 'Profile' ],
+			ecomMenuRoutes: [ 'Dashboard' ],
 			currentRoute: '',
 			isSubscribed: false,
 			requiresPrivacyConsent: false,
@@ -47,6 +49,9 @@ export default class App extends Component {
 						<Root />
 						{this.state.menuRoutes.includes(this.state.currentRoute) && (
 							<BottomNavbar currentRoute={this.state.currentRoute} />
+						)}
+						{this.state.ecomMenuRoutes.includes(this.state.currentRoute) && (
+							<EcomNavbar currentRoute={this.state.currentRoute} />
 						)}
 					</NavigationContainer>
 				</Provider>

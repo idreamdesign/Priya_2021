@@ -1,9 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { View, Text, Modal } from 'react-native';
+import store from '../redux/store';
 import appColors from '../utils/appColors';
 import RadioButton from './RadioButton';
 
-const GradePopup = ({ visiblity, onClose, gradeOptions, onSelect, selectedGrade }) => {
+const GradePopup = ({ visiblity, onClose, onSelect }) => {
+	const gradeOptions = store.getState().auth.gradeDetails;
+	const [ selectedGrade, setSelectedGrade ] = useState(undefined);
+	console.log(gradeOptions);
 	return (
 		<Modal
 			onRequestClose={onClose}
@@ -22,23 +26,26 @@ const GradePopup = ({ visiblity, onClose, gradeOptions, onSelect, selectedGrade 
 					}}
 				>
 					<Text style={{ fontSize: 15, fontWeight: '500', marginBottom: 10 }}>Grade List</Text>
-					{gradeOptions.map((option, index) => {
-						return (
-							<Fragment key={index}>
-								<RadioButton
-									label={option}
-									style={{
-										marginTop: 10,
-										borderBottomWidth: 1,
-										borderBottomColor: appColors.dimGrey,
-										paddingBottom: 20
-									}}
-									checked={selectedGrade == option}
-									onChange={() => onSelect(option)}
-								/>
-							</Fragment>
-						);
-					})}
+					{gradeOptions &&
+						gradeOptions.map((option, index) => {
+							return (
+								<Fragment key={index}>
+									<RadioButton
+										label={option.label}
+										style={{
+											marginTop: 10,
+											borderBottomWidth: 1,
+											borderBottomColor: appColors.dimGrey,
+											paddingBottom: 20
+										}}
+										checked={selectedGrade && selectedGrade == option.value}
+										onChange={() => (
+											setSelectedGrade(option.value), onSelect(option.value, option.label)
+										)}
+									/>
+								</Fragment>
+							);
+						})}
 				</View>
 			</View>
 		</Modal>

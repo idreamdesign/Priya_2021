@@ -20,7 +20,10 @@ const FullSizeBtn = ({ onPress, btnTitle, btnTitleStyles, btnColor, style }) => 
 		}
 	});
 	return (
-		<TouchableOpacity onPress={onPress} style={style ? { ...styles.btnStyles, ...style } : styles.btnStyles}>
+		<TouchableOpacity
+			onPress={() => (onPress ? onPress() : console.log('HI'))}
+			style={style ? { ...styles.btnStyles, ...style } : styles.btnStyles}
+		>
 			<Text style={{ ...styles.btnText, ...btnTitleStyles }}>{btnTitle}</Text>
 		</TouchableOpacity>
 	);

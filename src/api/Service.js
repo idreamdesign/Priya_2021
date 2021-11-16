@@ -18,7 +18,7 @@ class HandleRequestService {
 }
 
 const handleRequestHeaders = async (methodType, endpoint, requestData, onResponse, showSnackBar) => {
-	const jwtToken = await AsyncStorage.getItem(TOKEN);
+	const jwtToken = JSON.parse(await AsyncStorage.getItem(TOKEN));
 
 	console.log('JWT Token:::::::::::: ', jwtToken);
 
@@ -28,7 +28,7 @@ const handleRequestHeaders = async (methodType, endpoint, requestData, onRespons
 			? {
 					Accept: '*/*',
 					'Content-Type': requestData instanceof FormData ? 'multipart/form-data' : 'application/json',
-					Authorization: 'Bearer' + ' ' + JSON.parse(jwtToken)
+					Authorization: 'Bearer' + ' ' + jwtToken
 				}
 			: {
 					Accept: '*/*',

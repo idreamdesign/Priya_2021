@@ -8,8 +8,11 @@ import basicStyles from '../styles/basicStyles';
 import appImages from '../assets';
 import getIcon from '../utils/commonfunctions/getIcon';
 import appColors from '../utils/appColors';
+import store from '../redux/store';
 
 const SideMenu = (props) => {
+	const userDetails = store.getState().auth.userDetails;
+	console.log(userDetails);
 	const [ details, setDetails ] = useState({});
 
 	useEffect(() => {
@@ -33,8 +36,8 @@ const SideMenu = (props) => {
 					<View style={basicStyles.centeralign}>
 						<Image style={basicStyles.profileImg} source={appImages.otherImages.PROFILEPLACEHOLDER} />
 						<View style={basicStyles.details}>
-							<Text style={basicStyles.textheader}>Student name</Text>
-							<Text style={basicStyles.studentName}>sample@gmail.com</Text>
+							<Text style={basicStyles.textheader}>{userDetails.name}</Text>
+							<Text style={{ ...basicStyles.studentName, maxWidth: '97%' }}>{userDetails.email}</Text>
 						</View>
 					</View>
 				</TouchableOpacity>
@@ -113,7 +116,7 @@ const SideMenu = (props) => {
 						onPress={() => {
 							props.callParentScreenFunction();
 
-							// RootNavigation.navigate('DietitianList');
+							RootNavigation.navigate('Support');
 						}}
 					>
 						<View style={{ marginRight: 10 }}>
@@ -127,15 +130,27 @@ const SideMenu = (props) => {
 						style={basicStyles.swithBlock}
 						onPress={() => {
 							props.callParentScreenFunction();
-
-							// RootNavigation.navigate('ParkingList');
+							RootNavigation.navigate('Feedback');
 						}}
 					>
 						<View style={{ marginRight: 10 }}>{getIcon('mi', 'feedback', null, 30, appColors.grey)}</View>
 						<Text style={basicStyles.description}> Feedback </Text>
 					</TouchableOpacity>
 				</View>
-
+				<View style={{ marginBottom: 20 }}>
+					<TouchableOpacity
+						style={basicStyles.swithBlock}
+						onPress={() => {
+							props.callParentScreenFunction();
+							RootNavigation.navigate('Profile');
+						}}
+					>
+						<View style={{ marginRight: 10 }}>
+							{getIcon('ion', 'person-circle-sharp', null, 30, appColors.grey)}
+						</View>
+						<Text style={basicStyles.description}> Profile </Text>
+					</TouchableOpacity>
+				</View>
 				<TouchableOpacity
 					style={basicStyles.swithBlock}
 					onPress={() => (props.callParentScreenFunction(), props.logoutFn())}

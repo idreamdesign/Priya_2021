@@ -20,62 +20,62 @@ export const Dashboard = (props) => {
 							<View key={i} style={{ ...styles.offerCard, marginLeft: i == 0 ? 0 : 10 }}>
 								<Image style={styles.offerImg} source={appImages.appImages.LOGINBG} />
 								<Text style={styles.offerPercent}>50% Offer</Text>
-								<Text style={styles.restName}>New Restaurant</Text>
+								<Text style={styles.restName}>New Shops</Text>
 							</View>
 						);
 					})}
 				</ScrollView>
-				<Text style={{ ...styles.offerText, marginTop: 10 }}>Restaurants nearby you</Text>
+				<Text style={{ ...styles.offerText, marginTop: 10 }}>Shops near by you</Text>
 				<View style={styles.restContainer}>
 					<View style={{ flexDirection: 'row', width: '100%' }}>
 						<View style={{ ...styles.nearRestCard }}>
 							<Image style={styles.nearRestImg} source={appImages.otherImages.FOOD} />
 
-							<Text style={styles.nearRestName}>Restaurant1</Text>
+							<Text style={styles.nearRestName}>Shop1</Text>
 						</View>
 						<View style={{ ...styles.nearRestCard, marginLeft: '5%' }}>
 							<Image style={styles.nearRestImg} source={appImages.otherImages.FOOD} />
 
-							<Text style={styles.nearRestName}>Restaurant2</Text>
+							<Text style={styles.nearRestName}>Shop2</Text>
 						</View>
 						<View style={{ ...styles.nearRestCard, marginLeft: '5%' }}>
 							<Image style={styles.nearRestImg} source={appImages.otherImages.FOOD} />
 
-							<Text style={styles.nearRestName}>Restaurant3</Text>
+							<Text style={styles.nearRestName}>Shop3</Text>
 						</View>
 					</View>
 					<View style={{ flexDirection: 'row', width: '100%' }}>
 						<View style={{ ...styles.nearRestCard }}>
 							<Image style={styles.nearRestImg} source={appImages.otherImages.FOOD} />
 
-							<Text style={styles.nearRestName}>Restaurant4</Text>
+							<Text style={styles.nearRestName}>Shop4</Text>
 						</View>
 						<View style={{ ...styles.nearRestCard, marginLeft: '5%' }}>
 							<Image style={styles.nearRestImg} source={appImages.otherImages.FOOD} />
 
-							<Text style={styles.nearRestName}>Restaurant5</Text>
+							<Text style={styles.nearRestName}>Shop5</Text>
 						</View>
 						<View style={{ ...styles.nearRestCard, marginLeft: '5%' }}>
 							<Image style={styles.nearRestImg} source={appImages.otherImages.FOOD} />
 
-							<Text style={styles.nearRestName}>Restaurant6</Text>
+							<Text style={styles.nearRestName}>Shop6</Text>
 						</View>
 					</View>
 					<View style={{ flexDirection: 'row', width: '100%' }}>
 						<View style={{ ...styles.nearRestCard }}>
 							<Image style={styles.nearRestImg} source={appImages.otherImages.FOOD} />
 
-							<Text style={styles.nearRestName}>Restaurant7</Text>
+							<Text style={styles.nearRestName}>Shop7</Text>
 						</View>
 						<View style={{ ...styles.nearRestCard, marginLeft: '5%' }}>
 							<Image style={styles.nearRestImg} source={appImages.otherImages.FOOD} />
 
-							<Text style={styles.nearRestName}>Restaurant8</Text>
+							<Text style={styles.nearRestName}>Shop8</Text>
 						</View>
 						<View style={{ ...styles.nearRestCard, marginLeft: '5%' }}>
 							<Image style={styles.nearRestImg} source={appImages.otherImages.FOOD} />
 
-							<Text style={styles.nearRestName}>Restaurant9</Text>
+							<Text style={styles.nearRestName}>Shop9</Text>
 						</View>
 					</View>
 				</View>

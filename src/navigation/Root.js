@@ -34,6 +34,11 @@ import GroupSubList from '../screens/otherscreens/category/group/GroupSubList';
 import TopicView from '../screens/otherscreens/TopicView';
 import RoleSelectionScreen from '../screens/authScreens/RoleSelectionScreen';
 import Dashboard from '../screens/otherscreens/ecom/Dashboard';
+import Support from '../screens/otherscreens/Support';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Feedback from '../screens/otherscreens/Feedback';
+
 const Stack = createStackNavigator();
 
 const RootNavigation = (props) => {
@@ -70,7 +75,17 @@ const RootNavigation = (props) => {
 							<Text onPress={() => setLogoutPopUp(false)} style={{ width: '30%' }}>
 								NO
 							</Text>
-							<Text onPress={() => (setLogoutPopUp(false), navigation.navigate('LoginScreen'))}>
+							<Text
+								onPress={async () => {
+									const keys = await AsyncStorage.getAllKeys();
+									console.log('async keys:::>', keys);
+									if (keys.length >= 0) {
+										await AsyncStorage.multiRemove(keys);
+										setLogoutPopUp(false);
+										navigation.navigate('RoleSelectionScreen');
+									}
+								}}
+							>
 								&nbsp; &nbsp; &nbsp; &nbsp;Yes
 							</Text>
 						</Text>
@@ -132,6 +147,37 @@ const RootNavigation = (props) => {
 		return (
 			<TouchableOpacity onPress={() => navigation.navigate('Notifications')} style={{ padding: 15 }}>
 				{getIcon('ion', wishList ? 'heart-outline' : 'notifications', { color: 'white' }, 25)}
+			</TouchableOpacity>
+		);
+	};
+	const HeaderRightEcom = ({ wishList }) => {
+		return (
+			<TouchableOpacity
+				style={{ flexDirection: 'row', padding: 15 }}
+				onPress={() => navigation.navigate('Notifications')}
+			>
+				{getIcon('ion', 'cart', { color: 'white' }, 25)}
+				<View
+					style={{
+						top: 5,
+						right: 10,
+						backgroundColor: appColors.white,
+						width: 20,
+						height: 20,
+						borderRadius: 10,
+						alignItems: 'center',
+						justifyContent: 'center'
+					}}
+				>
+					<Text
+						style={{
+							fontSize: 12,
+							color: appColors.primaryColor
+						}}
+					>
+						10
+					</Text>
+				</View>
 			</TouchableOpacity>
 		);
 	};
@@ -419,7 +465,29 @@ const RootNavigation = (props) => {
 						headerTitleStyle: { color: appColors.white },
 						headerStyle: { backgroundColor: appColors.primaryColor },
 						headerLeft: () => <HeaderLeftEcom />,
-						headerRight: () => <HeaderRight />
+						headerRight: () => <HeaderRightEcom />
+					}}
+				/>
+				<Stack.Screen
+					name="Support"
+					component={Support}
+					options={{
+						headerShown: true,
+						headerTitle: 'Support',
+						headerTitleStyle: { color: appColors.white },
+						headerStyle: { backgroundColor: appColors.primaryColor },
+						headerLeft: () => <HeaderLeft back />
+					}}
+				/>
+				<Stack.Screen
+					name="Feedback"
+					component={Feedback}
+					options={{
+						headerShown: true,
+						headerTitle: 'Feedback',
+						headerTitleStyle: { color: appColors.white },
+						headerStyle: { backgroundColor: appColors.primaryColor },
+						headerLeft: () => <HeaderLeft back />
 					}}
 				/>
 			</Stack.Navigator>

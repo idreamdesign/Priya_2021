@@ -4,8 +4,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import appColors from '../../utils/appColors';
 import getIcon from '../../utils/commonfunctions/getIcon';
 
-const PasswordInput = ({ style, placeHolder, helperText, helperTextStyles, onChange }) => {
-	const [ showPassword, setShowPassword ] = useState(true);
+const PasswordInput = ({ style, placeHolder, helperText, helperTextStyles, onChange, initialValue }) => {
+	const [ showPassword, setShowPassword ] = useState(false);
 	const styles = StyleSheet.create({
 		textInput: {
 			borderWidth: 1,
@@ -22,6 +22,9 @@ const PasswordInput = ({ style, placeHolder, helperText, helperTextStyles, onCha
 		<Fragment>
 			<View style={{ alignSelf: 'center', flexDirection: 'row', width: '90%' }}>
 				<TextInput
+					secureTextEntry={!showPassword}
+					value={initialValue}
+					onChangeText={(text) => onChange(text)}
 					placeholder={placeHolder ? placeHolder : ''}
 					style={style ? { ...style, ...styles.textInput } : { ...styles.textInput }}
 				/>

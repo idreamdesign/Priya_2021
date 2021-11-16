@@ -9,6 +9,11 @@ const basicStyles = StyleSheet.create({
 		height: HEIGHT,
 		width: WIDTH
 	},
+	centerContainer: {
+		width: '95%',
+		marginLeft: '2.5%',
+		marginRight: '2.5%'
+	},
 	sideMenuStyle: {
 		margin: 0,
 		width: Dimensions.get('window').width * 0.75

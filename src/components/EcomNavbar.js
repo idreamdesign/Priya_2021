@@ -5,13 +5,13 @@ import appColors from '../utils/appColors';
 import getIcon from '../utils/commonfunctions/getIcon';
 import { useNavigation } from '@react-navigation/native';
 
-const BottomNavbar = ({ currentRoute }) => {
+const EcomNavbar = ({ currentRoute }) => {
 	const navigation = useNavigation();
 	const menu = [
-		{ menuName: 'Home', navName: 'Home', menuIcon: 'ios-home-sharp' },
-		{ menuName: 'Favourite', navName: 'FavouriteList', menuIcon: 'ios-heart' },
-		{ menuName: 'Payments', navName: 'PaymentHistory', menuIcon: 'ios-wallet' },
-		{ menuName: 'Profile', navName: 'Profile', menuIcon: 'person-circle-sharp' }
+		{ menuName: 'Home', navName: 'Dashboard', menuIcon: 'ios-home-sharp' },
+		{ menuName: 'Favourite', navName: '', menuIcon: 'ios-heart' },
+		{ menuName: 'Cart', navName: '', menuIcon: 'cart' },
+		{ menuName: 'Profile', navName: '', menuIcon: 'person-circle-sharp' }
 	];
 	return (
 		<View style={styles.bottomNavContainer}>
@@ -39,4 +39,4 @@ const BottomNavbar = ({ currentRoute }) => {
 	);
 };
 
-export default BottomNavbar;
+export default EcomNavbar;
