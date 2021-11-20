@@ -174,7 +174,6 @@ export const RegisterScreen = (props) => {
 					setSelectedGradeLabel(label),
 					setGradePopup(false)
 				)}
-				gradeOptions={gradeOptions}
 				visiblity={gradePopup}
 				onClose={() => setGradePopup(false)}
 			/>

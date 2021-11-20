@@ -1,25 +1,130 @@
 import React, { useState, Fragment } from 'react';
 import { Image, View } from 'react-native';
+import Snackbar from 'react-native-snackbar';
 import { connect } from 'react-redux';
 import appImages from '../../assets';
 import FullSizeBtn from '../../components/FullSizeBtn';
 import CustomInput from '../../components/textinput/CustomInput';
 import PasswordInput from '../../components/textinput/PasswordInput';
+import { changePassword } from '../../redux/root.actions';
 import basicStyles from '../../styles/basicStyles';
 import appColors from '../../utils/appColors';
-
+import { formErrorValue } from '../../utils/commonfunctions/validations';
+import _ from 'lodash';
 export const ForgotOrChangePassword = (props) => {
 	const isChangePassword = props.route.params;
 	const [ forgotVisible, setForgotVisible ] = useState(false);
+	//fields for password change
+	const [ details, setDetails ] = useState({
+		oldPass: undefined,
+		pass: undefined,
+		confirmPass: undefined
+	});
+	const [ validationErrors, setValidationErrors ] = useState({
+		oldPass: false,
+		pass: false,
+		confirmPass: false
+	});
+	const handleChangePass = () => {
+		const formData = validateFields();
+
+		console.log(formData, 'FormData;::::::::::');
+		if (formData) {
+			setLoading(true);
+
+			props.changePassword(
+				formData,
+				(res) => {
+					console.log(res);
+					// const response = res.data;
+					// console.log(response);
+				},
+				true
+			);
+		} else {
+			Snackbar.show({
+				text: 'Please check the details provided!',
+				backgroundColor: 'red',
+				length: Snackbar.LENGTH_SHORT
+			});
+		}
+	};
+	const validateFields = () => {
+		let formData = new FormData();
+		let errors = { ...validationErrors };
+
+		if (_.isEmpty(details.oldPass)) {
+			errors.oldPass = 'Enter old password';
+			formData = undefined;
+		} else if (!_.isEmpty(details.oldPass) && getTrimValueLength(details.oldPass) < 8) {
+			errors.oldPass = 'Enter valid password';
+			formData = undefined;
+		} else {
+			formData && formData.append('password', details.pass);
+		}
+		if (_.isEmpty(details.pass)) {
+			errors.pass = 'Enter password';
+			formData = undefined;
+		} else if (!_.isEmpty(details.pass) && getTrimValueLength(details.pass) < 8) {
+			errors.pass = 'Enter valid password';
+			formData = undefined;
+		} else {
+			formData && formData.append('password', details.pass);
+		}
+		if (_.isEmpty(details.confirmPass)) {
+			errors.confirmPass = 'Enter confirmation password';
+			formData = undefined;
+		} else if (details.pass !== details.confirmPass) {
+			errors.confirmPass = 'Password Mismatch';
+			formData = undefined;
+		} else {
+			formData && formData.append('password_confirmation', details.pass);
+		}
+		console.log(errors, 'errors');
+		setValidationErrors(errors);
+		return formData;
+	};
 	const ForgotFields = () => {
 		return (
 			<Fragment>
-				{isChangePassword && <PasswordInput helperText="Your old password" placeHolder="Old Password" />}
-				<PasswordInput helperText="Minimum 8 characters" placeHolder="New Password" />
-				<PasswordInput helperText="Same as create password" placeHolder="Cofirm New Password" />
+				{isChangePassword && (
+					<Fragment>
+						<PasswordInput
+							initialValue={details.oldPass}
+							onChange={(text) => (
+								setValidationErrors({ ...validationErrors, oldPass: false }),
+								setDetails({ ...details, oldPass: text })
+							)}
+							helperText="Your old password"
+							placeHolder="Old password"
+						/>
+						{validationErrors.oldPass && formErrorValue(validationErrors.oldPass)}
+					</Fragment>
+				)}
+				<PasswordInput
+					initialValue={details.pass}
+					onChange={(text) => (
+						setValidationErrors({ ...validationErrors, pass: false }),
+						setDetails({ ...details, pass: text })
+					)}
+					helperText="Minimum 8 characters"
+					placeHolder="New Password"
+				/>
+				{validationErrors.pass && formErrorValue(validationErrors.pass)}
+
+				<PasswordInput
+					initialValue={details.confirmPass}
+					onChange={(text) => (
+						setValidationErrors({ ...validationErrors, confirmPass: false }),
+						setDetails({ ...details, confirmPass: text })
+					)}
+					helperText="Same as create password"
+					placeHolder="Cofirm New Password"
+				/>
+				{validationErrors.confirmPass && formErrorValue(validationErrors.confirmPass)}
 
 				<FullSizeBtn
-					onPress={() => console.log('Register')}
+					onPress={() => handleChangePass()}
 					btnColor={appColors.simpleBlue}
 					btnTitle={isChangePassword ? 'Update Password' : 'Reset'}
 					style={{ marginTop: 15 }}
@@ -27,6 +132,7 @@ export const ForgotOrChangePassword = (props) => {
 			</Fragment>
 		);
 	};
+
 	return (
 		<View
 			style={{
@@ -44,7 +150,20 @@ export const ForgotOrChangePassword = (props) => {
 				</View>
 			) : (
 				<Fragment>
-					{isChangePassword && <PasswordInput helperText="Your old Password" placeHolder="Old Password" />}
+					{isChangePassword && (
+						<Fragment>
+							<PasswordInput
+								initialValue={details.pass}
+								onChange={(text) => (
+									setValidationErrors({ ...validationErrors, pass: false }),
+									setDetails({ ...details, pass: text })
+								)}
+								helperText="Your old password"
+								placeHolder="Old password"
+							/>
+							{validationErrors.pass && formErrorValue(validationErrors.pass)}
+						</Fragment>
+					)}
 					<View style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
 						<CustomInput helperText="Enter registered phone number" placeHolder="Phone Number" />
 						<View style={{ width: '90%', flexDirection: 'row', marginTop: 15 }}>
@@ -68,9 +187,12 @@ export const ForgotOrChangePassword = (props) => {
 		</View>
 	);
 };
+const mapDispatchToProps = (dispatch) => {
+	return {
+		changePassword: (requestData, onResponse, showSnackBar) => {
+			dispatch(changePassword(requestData, onResponse, showSnackBar));
+		}
+	};
+};
 
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotOrChangePassword);
+export default connect(null, mapDispatchToProps)(ForgotOrChangePassword);

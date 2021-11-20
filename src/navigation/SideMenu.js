@@ -69,7 +69,7 @@ const SideMenu = (props) => {
 						<Text style={basicStyles.description}> My Courses </Text>
 					</TouchableOpacity>
 				</View>
-				<View style={{ marginBottom: 20 }}>
+				{/* <View style={{ marginBottom: 20 }}>
 					<TouchableOpacity
 						style={basicStyles.swithBlock}
 						onPress={() => {
@@ -80,7 +80,7 @@ const SideMenu = (props) => {
 						<View style={{ marginRight: 10 }}>{getIcon('ad', 'table', null, 25, appColors.grey)}</View>
 						<Text style={basicStyles.description}> Time Table </Text>
 					</TouchableOpacity>
-				</View>
+				</View> */}
 				<View style={{ marginBottom: 20 }}>
 					<TouchableOpacity
 						style={basicStyles.swithBlock}

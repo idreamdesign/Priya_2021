@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 		textTransform: 'capitalize'
 	},
 	detailValue: {
-		fontSize: 14,
+		fontSize: 15,
 		marginTop: 10
 	}
 });

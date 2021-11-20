@@ -23,3 +23,17 @@ export const paymentHistory = (requestData, onResponse, showSnackBar) => {
 		);
 	};
 };
+
+export const getUpcomingCourses = (requestData, onResponse, showSnackBar) => {
+	console.log(requestData, 'requestDatarequestData');
+	return (dispatch) => {
+		RequestService.get(
+			Endpoints.UPCOMING_COURSES,
+			requestData,
+			(response) => {
+				onResponse(response);
+			},
+			showSnackBar
+		);
+	};
+};

@@ -6,6 +6,8 @@ import RadioButton from './RadioButton';
 
 const GradePopup = ({ visiblity, onClose, onSelect }) => {
 	const gradeOptions = store.getState().auth.gradeDetails;
+	const userDetails = store.getState().auth.userDetails;
+
 	const [ selectedGrade, setSelectedGrade ] = useState(undefined);
 	console.log(gradeOptions);
 	return (

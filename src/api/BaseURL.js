@@ -1,3 +1,3 @@
 // Live BaseURL's
 
-export const BASE_URL = 'https://tamilupdates.in/lms/api/';
+export const BASE_URL = 'https://djeli.com.my/lms/api/';

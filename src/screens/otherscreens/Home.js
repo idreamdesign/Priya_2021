@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Image, Alert, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import appImages from '../../assets';
@@ -10,24 +10,39 @@ import appColors from '../../utils/appColors';
 import getIcon from '../../utils/commonfunctions/getIcon';
 import GradePopup from '../../components/GradePopup';
 import store from '../../redux/store';
-
+import { getUpcomingCourses } from '../../redux/root.actions';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import ClassLoader from '../../components/loaders/ClassLoader';
+import { NODATAFOUND } from '../../utils/constants';
 export const Home = (props) => {
 	const categories = store.getState().auth.categoryDetails;
-	console.log(categories, 'Categories');
 	const [ gradePopup, setGradePopup ] = useState(false);
-	const gradeOptions = [ 'Form 1', 'Form 2', 'Form 3' ];
 	const [ selectedGrade, setSelectedGrade ] = useState(null);
 	const [ selectedGradeLabel, setSelectedGradeLabel ] = useState(null);
+	const [ upcomingClasses, setUpcomingClasses ] = useState(null);
+	React.useEffect(() => {
+		let isActive = true;
+		// BackHandler.addEventListener('hardwareBackPress', backAction);
+		isActive && getUpcomingCourses();
+		return () => {
+			// BackHandler.removeEventListener('hardwareBackPress', backAction);
+			isActive = false;
+		};
+	}, []);
 
-	// React.useEffect(() => {
-	// 	let isActive = true;
-	// 	BackHandler.addEventListener('hardwareBackPress', backAction);
-
-	// 	return () => {
-	// 		BackHandler.removeEventListener('hardwareBackPress', backAction);
-	// 		isActive = false;
-	// 	};
-	// }, []);
+	const getUpcomingCourses = async () => {
+		props.getUpcomingCourses(
+			null,
+			(res) => {
+				const response = res.data;
+				if (response) {
+					setUpcomingClasses(response);
+					console.log(response, 'Upcoming Courses:::::');
+				}
+			},
+			false
+		);
+	};
 	// const backAction = () => {
 	// 	Alert.alert('Exit', 'Are you sure you want to exit from the App?', [
 	// 		{
@@ -41,17 +56,21 @@ export const Home = (props) => {
 	// };
 	return (
 		<View style={basicStyles.container}>
+			{/* <SkeletonContent containerStyle={{ flex: 1, width: 300 }} isLoading={false}>
+				<View style={{ height: 200, backgroundColor: 'yellow' }} />
+			</SkeletonContent> */}
+
 			<GradePopup
 				onSelect={(option, label) => (
 					setSelectedGrade(option), setSelectedGradeLabel(label), setGradePopup(false)
 				)}
-				gradeOptions={gradeOptions}
 				visiblity={gradePopup}
 				onClose={() => setGradePopup(false)}
 			/>
 			<View style={styles.searchBarContainer}>
 				<SearchBar placeHolder="Search Course" style={{ marginTop: 10, backgroundColor: 'white' }} />
 			</View>
+
 			<ScrollView>
 				<View style={{ padding: 10 }}>
 					<View style={styles.categoryHeading}>
@@ -167,6 +186,7 @@ export const Home = (props) => {
 							<Text style={styles.divisionSub}>Topic name</Text>
 							<Rating rating={3.5} iconSize={20} style={{ marginTop: 5 }} />
 						</View>
+
 						<View style={styles.classesCard}>
 							<Image
 								resizeMode="stretch"
@@ -197,17 +217,34 @@ export const Home = (props) => {
 						showsHorizontalScrollIndicator={false}
 						contentContainerStyle={{ marginTop: 15 }}
 					>
-						<View style={styles.classesCard}>
-							<Image
-								resizeMode="stretch"
-								source={appImages.otherImages.TEACHING}
-								style={styles.continueImg}
-							/>
+						{upcomingClasses ? upcomingClasses.length != 0 ? (
+							upcomingClasses.map((course, i) => {
+								return (
+									<View style={styles.classesCard} key={i}>
+										<Image
+											resizeMode="stretch"
+											source={appImages.otherImages.TEACHING}
+											style={styles.continueImg}
+										/>
 
-							<Text style={styles.subTitle}>English</Text>
-							<Text style={styles.divisionSub}>Topic name</Text>
-							<Text style={styles.divisionSub}>29-05-20215.37 PM</Text>
-						</View>
+										<Text style={styles.subTitle}>{course.title}</Text>
+										<Text style={styles.divisionSub}>{course.slug}</Text>
+										<Text style={styles.divisionSub}>{course.publishedDate}5.37 PM</Text>
+									</View>
+								);
+							})
+						) : (
+							<NODATAFOUND />
+						) : (
+							[ 1, 2, 3, 4 ].map((el, i) => {
+								return (
+									<Fragment key={i}>
+										<ClassLoader style={i > 0 && { marginLeft: 10 }} />
+									</Fragment>
+								);
+							})
+						)}
+
 						<View style={styles.classesCard}>
 							<Image
 								resizeMode="stretch"
@@ -237,8 +274,12 @@ export const Home = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => {
+	return {
+		getUpcomingCourses: (requestData, onResponse, showSnackBar) => {
+			dispatch(getUpcomingCourses(requestData, onResponse, showSnackBar));
+		}
+	};
+};
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(null, mapDispatchToProps)(Home);
