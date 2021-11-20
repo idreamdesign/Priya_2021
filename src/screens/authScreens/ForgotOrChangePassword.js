@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react';
-import { Image, View } from 'react-native';
+import { Image, View, ActivityIndicator } from 'react-native';
 import Snackbar from 'react-native-snackbar';
 import { connect } from 'react-redux';
 import appImages from '../../assets';
@@ -9,7 +9,7 @@ import PasswordInput from '../../components/textinput/PasswordInput';
 import { changePassword } from '../../redux/root.actions';
 import basicStyles from '../../styles/basicStyles';
 import appColors from '../../utils/appColors';
-import { formErrorValue } from '../../utils/commonfunctions/validations';
+import { formErrorValue, getTrimValueLength } from '../../utils/commonfunctions/validations';
 import _ from 'lodash';
 export const ForgotOrChangePassword = (props) => {
 	const isChangePassword = props.route.params;
@@ -25,6 +25,7 @@ export const ForgotOrChangePassword = (props) => {
 		pass: false,
 		confirmPass: false
 	});
+	const [ loading, setLoading ] = useState(false);
 	const handleChangePass = () => {
 		const formData = validateFields();
 
@@ -36,11 +37,11 @@ export const ForgotOrChangePassword = (props) => {
 				formData,
 				(res) => {
 					console.log(res);
-					// const response = res.data;
-					// console.log(response);
+					props.navigation.navigate('Profile');
 				},
 				true
 			);
+			setLoading(false);
 		} else {
 			Snackbar.show({
 				text: 'Please check the details provided!',
@@ -60,7 +61,7 @@ export const ForgotOrChangePassword = (props) => {
 			errors.oldPass = 'Enter valid password';
 			formData = undefined;
 		} else {
-			formData && formData.append('password', details.pass);
+			formData && formData.append('old_password', details.oldPass);
 		}
 		if (_.isEmpty(details.pass)) {
 			errors.pass = 'Enter password';
@@ -69,7 +70,7 @@ export const ForgotOrChangePassword = (props) => {
 			errors.pass = 'Enter valid password';
 			formData = undefined;
 		} else {
-			formData && formData.append('password', details.pass);
+			formData && formData.append('new_password', details.pass);
 		}
 		if (_.isEmpty(details.confirmPass)) {
 			errors.confirmPass = 'Enter confirmation password';
@@ -78,60 +79,17 @@ export const ForgotOrChangePassword = (props) => {
 			errors.confirmPass = 'Password Mismatch';
 			formData = undefined;
 		} else {
-			formData && formData.append('password_confirmation', details.pass);
+			formData && formData.append('confirm_password', details.pass);
 		}
 		console.log(errors, 'errors');
 		setValidationErrors(errors);
 		return formData;
 	};
-	const ForgotFields = () => {
-		return (
-			<Fragment>
-				{isChangePassword && (
-					<Fragment>
-						<PasswordInput
-							initialValue={details.oldPass}
-							onChange={(text) => (
-								setValidationErrors({ ...validationErrors, oldPass: false }),
-								setDetails({ ...details, oldPass: text })
-							)}
-							helperText="Your old password"
-							placeHolder="Old password"
-						/>
-						{validationErrors.oldPass && formErrorValue(validationErrors.oldPass)}
-					</Fragment>
-				)}
-				<PasswordInput
-					initialValue={details.pass}
-					onChange={(text) => (
-						setValidationErrors({ ...validationErrors, pass: false }),
-						setDetails({ ...details, pass: text })
-					)}
-					helperText="Minimum 8 characters"
-					placeHolder="New Password"
-				/>
-				{validationErrors.pass && formErrorValue(validationErrors.pass)}
+	// const ForgotFields = () => {
+	// 	return (
 
-				<PasswordInput
-					initialValue={details.confirmPass}
-					onChange={(text) => (
-						setValidationErrors({ ...validationErrors, confirmPass: false }),
-						setDetails({ ...details, confirmPass: text })
-					)}
-					helperText="Same as create password"
-					placeHolder="Cofirm New Password"
-				/>
-				{validationErrors.confirmPass && formErrorValue(validationErrors.confirmPass)}
-
-				<FullSizeBtn
-					onPress={() => handleChangePass()}
-					btnColor={appColors.simpleBlue}
-					btnTitle={isChangePassword ? 'Update Password' : 'Reset'}
-					style={{ marginTop: 15 }}
-				/>
-			</Fragment>
-		);
-	};
+	// 	);
+	// };
 
 	return (
 		<View
@@ -146,7 +104,58 @@ export const ForgotOrChangePassword = (props) => {
 			)}
 			{forgotVisible || isChangePassword ? (
 				<View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-					<ForgotFields />
+					<Fragment>
+						{isChangePassword && (
+							<Fragment>
+								<PasswordInput
+									initialValue={details.oldPass}
+									onChange={(text) => (
+										setValidationErrors({ ...validationErrors, oldPass: false }),
+										setDetails({ ...details, oldPass: text })
+									)}
+									helperText="Your old password"
+									placeHolder="Old password"
+								/>
+								{validationErrors.oldPass && formErrorValue(validationErrors.oldPass)}
+							</Fragment>
+						)}
+						<PasswordInput
+							initialValue={details.pass}
+							onChange={(text) => (
+								setValidationErrors({ ...validationErrors, pass: false }),
+								setDetails({ ...details, pass: text })
+							)}
+							helperText="Minimum 8 characters"
+							placeHolder="New Password"
+						/>
+						{validationErrors.pass && formErrorValue(validationErrors.pass)}
+
+						<PasswordInput
+							initialValue={details.confirmPass}
+							onChange={(text) => (
+								setValidationErrors({ ...validationErrors, confirmPass: false }),
+								setDetails({ ...details, confirmPass: text })
+							)}
+							helperText="Same as create password"
+							placeHolder="Cofirm New Password"
+						/>
+						{validationErrors.confirmPass && formErrorValue(validationErrors.confirmPass)}
+
+						<FullSizeBtn
+							onPress={() => handleChangePass()}
+							btnColor={appColors.simpleBlue}
+							btnTitle={
+								loading ? (
+									<ActivityIndicator size={'small'} color={appColors.white} />
+								) : isChangePassword ? (
+									'Update Password'
+								) : (
+									'Reset'
+								)
+							}
+							style={{ marginTop: 15 }}
+						/>
+					</Fragment>
 				</View>
 			) : (
 				<Fragment>

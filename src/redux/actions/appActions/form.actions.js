@@ -31,3 +31,17 @@ export const changePassword = (requestData, onResponse, showSnackBar) => {
 		);
 	};
 };
+
+export const sendFeedback = (requestData, onResponse, showSnackBar) => {
+	console.log(requestData, 'requestDatarequestData');
+	return (dispatch) => {
+		RequestService.post(
+			Endpoints.SEND_FEEDBACK,
+			requestData,
+			(response) => {
+				onResponse(response);
+			},
+			showSnackBar
+		);
+	};
+};

@@ -103,7 +103,7 @@ const EditProfile = (props) => {
 			errors.name = 'Enter name';
 			formData = undefined;
 		} else if (!_.isEmpty(details.name) && getTrimValueLength(details.name) < 3) {
-			errors.pass = 'Enter valid name';
+			errors.name = 'Enter valid name';
 			formData = undefined;
 		} else {
 			formData && formData.append('name', details.name);

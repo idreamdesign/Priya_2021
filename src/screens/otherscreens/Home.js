@@ -14,6 +14,9 @@ import { getUpcomingCourses } from '../../redux/root.actions';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import ClassLoader from '../../components/loaders/ClassLoader';
 import { NODATAFOUND } from '../../utils/constants';
+import getPictures from '../../utils/commonfunctions/getPictures';
+import NoDataFound from '../../components/NoDataFound';
+
 export const Home = (props) => {
 	const categories = store.getState().auth.categoryDetails;
 	const [ gradePopup, setGradePopup ] = useState(false);
@@ -29,7 +32,7 @@ export const Home = (props) => {
 			isActive = false;
 		};
 	}, []);
-
+	const [ onErr, setOnErr ] = useState(false);
 	const getUpcomingCourses = async () => {
 		props.getUpcomingCourses(
 			null,
@@ -37,7 +40,7 @@ export const Home = (props) => {
 				const response = res.data;
 				if (response) {
 					setUpcomingClasses(response);
-					console.log(response, 'Upcoming Courses:::::');
+					console.log(response, 'Upcoming:::::::::');
 				}
 			},
 			false
@@ -88,6 +91,7 @@ export const Home = (props) => {
 						contentContainerStyle={{ marginTop: 15 }}
 					>
 						{categories.map((cat, i) => {
+							console.log(cat);
 							return (
 								<TouchableOpacity
 									key={i}
@@ -96,8 +100,18 @@ export const Home = (props) => {
 								>
 									<Text style={styles.categoryTitle}>{cat.name}</Text>
 									<Image
+										onError={() => {
+											console.log(i, 'Err in this image::::::');
+											setOnErr(true);
+										}}
 										resizeMode="stretch"
-										source={appImages.otherImages.ONETOONECLASS}
+										source={
+											cat.thumbnail ? (
+												{ uri: getPictures(cat.thumbnail) }
+											) : (
+												appImages.otherImages.ONETOONECLASS
+											)
+										}
 										style={styles.categoryImg}
 									/>
 								</TouchableOpacity>
@@ -223,7 +237,13 @@ export const Home = (props) => {
 									<View style={styles.classesCard} key={i}>
 										<Image
 											resizeMode="stretch"
-											source={appImages.otherImages.TEACHING}
+											source={
+												course.thumbnail ? (
+													{ uri: getPictures(course.thumbnail) }
+												) : (
+													appImages.otherImages.TEACHING
+												)
+											}
 											style={styles.continueImg}
 										/>
 
@@ -234,7 +254,7 @@ export const Home = (props) => {
 								);
 							})
 						) : (
-							<NODATAFOUND />
+							<NoDataFound />
 						) : (
 							[ 1, 2, 3, 4 ].map((el, i) => {
 								return (
@@ -244,29 +264,6 @@ export const Home = (props) => {
 								);
 							})
 						)}
-
-						<View style={styles.classesCard}>
-							<Image
-								resizeMode="stretch"
-								source={appImages.otherImages.TEACHING}
-								style={styles.continueImg}
-							/>
-
-							<Text style={styles.subTitle}>Chemistry</Text>
-							<Text style={styles.divisionSub}>Topic name</Text>
-							<Text style={styles.divisionSub}>29-05-20215.37 PM</Text>
-						</View>
-						<View style={styles.classesCard}>
-							<Image
-								resizeMode="stretch"
-								source={appImages.otherImages.TEACHING}
-								style={styles.continueImg}
-							/>
-
-							<Text style={styles.subTitle}>Biology</Text>
-							<Text style={styles.divisionSub}>Topic name</Text>
-							<Text style={styles.divisionSub}>29-05-20215.37 PM</Text>
-						</View>
 					</ScrollView>
 				</View>
 			</ScrollView>

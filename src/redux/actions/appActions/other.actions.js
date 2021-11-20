@@ -37,3 +37,30 @@ export const getUpcomingCourses = (requestData, onResponse, showSnackBar) => {
 		);
 	};
 };
+export const getMyCourses = (requestData, onResponse, showSnackBar) => {
+	console.log(requestData, 'requestDatarequestData');
+	return (dispatch) => {
+		RequestService.get(
+			Endpoints.GET_MY_COURSES,
+			requestData,
+			(response) => {
+				onResponse(response);
+			},
+			showSnackBar
+		);
+	};
+};
+
+export const getMyFavourites = (requestData, onResponse, showSnackBar) => {
+	console.log(requestData, 'requestDatarequestData');
+	return (dispatch) => {
+		RequestService.get(
+			Endpoints.GET_FAVOURITES,
+			requestData,
+			(response) => {
+				onResponse(response);
+			},
+			showSnackBar
+		);
+	};
+};

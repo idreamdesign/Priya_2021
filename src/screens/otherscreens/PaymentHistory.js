@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import Loader from '../../components/Loader';
+import CourseListLoader from '../../components/loaders/CourseListLoader';
 import NoDataFound from '../../components/NoDataFound';
 import { paymentHistory } from '../../redux/root.actions';
 import basicStyles from '../../styles/basicStyles';
@@ -22,7 +23,8 @@ export const PaymentHistory = (props) => {
 			null,
 			async (res) => {
 				let response = res.data;
-				response.data.length == 0 ? setPaymentHistory([]) : setPaymentHistory(response.data);
+				console.log(response, 'Resssss::::::::::');
+				setPaymentHistory(response.data);
 				console.log(response.data, 'Ress');
 			},
 			false
@@ -52,7 +54,7 @@ export const PaymentHistory = (props) => {
 					);
 				})
 			) : (
-				<Loader />
+				<CourseListLoader style={{ ...styles.paymentCardContainer, margin: 5 }} />
 			)}
 		</ScrollView>
 	);

@@ -9,6 +9,7 @@ import appImages from '../assets';
 import getIcon from '../utils/commonfunctions/getIcon';
 import appColors from '../utils/appColors';
 import store from '../redux/store';
+import getProfileImage from '../utils/commonfunctions/getPictures';
 
 const SideMenu = (props) => {
 	const userDetails = store.getState().auth.userDetails;
@@ -34,7 +35,16 @@ const SideMenu = (props) => {
 					}}
 				>
 					<View style={basicStyles.centeralign}>
-						<Image style={basicStyles.profileImg} source={appImages.otherImages.PROFILEPLACEHOLDER} />
+						<Image
+							style={basicStyles.profileImg}
+							source={
+								userDetails.avatar ? (
+									{ uri: getProfileImage(userDetails.avatar) }
+								) : (
+									appImages.otherImages.PROFILEPLACEHOLDER
+								)
+							}
+						/>
 						<View style={basicStyles.details}>
 							<Text style={basicStyles.textheader}>{userDetails.name}</Text>
 							<Text style={{ ...basicStyles.studentName, maxWidth: '97%' }}>{userDetails.email}</Text>
