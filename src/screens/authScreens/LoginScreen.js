@@ -119,7 +119,13 @@ export const LoginScreen = (props) => {
 			/>
 
 			<FullSizeBtn
-				onPress={() => props.navigation.navigate('RegisterScreen')}
+				onPress={() => {
+					if (selectedRole == 'lms') {
+						props.navigation.navigate('RegisterScreen');
+					} else {
+						props.navigation.navigate('EcomRegisterScreen');
+					}
+				}}
 				btnColor={appColors.simpleBlue}
 				btnTitle="Register"
 				style={{ marginTop: 15 }}

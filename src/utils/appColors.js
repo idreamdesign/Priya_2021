@@ -17,7 +17,8 @@ const appColors = {
 	orange: 'orange',
 	dimGrey: '#ede8e8',
 	dimBlack: '#42454a',
-	red: 'red'
+	red: 'red',
+	tabGrey: '#d3d3d3'
 };
 
 export default appColors;

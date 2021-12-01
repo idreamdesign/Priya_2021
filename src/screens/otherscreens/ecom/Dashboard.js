@@ -5,13 +5,28 @@ import appImages from '../../../assets';
 import SearchBar from '../../../components/SearchBar';
 import basicStyles from '../../../styles/basicStyles';
 import styles from '../../../styles/HomeStyles';
+import appColors from '../../../utils/appColors';
+import getIcon from '../../../utils/commonfunctions/getIcon';
 
 export const Dashboard = (props) => {
+	const myString = 'Restaurants';
 	return (
 		<View style={basicStyles.container}>
-			<View style={styles.searchBarContainer}>
-				<SearchBar placeHolder="Search food" style={{ marginTop: 10, backgroundColor: 'white' }} />
+			<View style={styles.locationContainer}>
+				{getIcon('et', 'location-pin', null, 25, appColors.white)}
+				<Text style={styles.locationText}>123,New District,New State,Tamilnadu-123456.</Text>
 			</View>
+			<View style={styles.searchBarContainer}>
+				<SearchBar
+					placeHolder="Search by shopname,item,product..."
+					style={{ marginTop: 10, backgroundColor: 'white', width: '103%' }}
+				/>
+			</View>
+			<ScrollView horizontal contentContainerStyle={styles.tabsContainer}>
+				<View style={{ ...styles.tabs, width: myString.length * 10, height: 40 }}>
+					<Text>{myString}</Text>
+				</View>
+			</ScrollView>
 			<ScrollView contentContainerStyle={{ padding: 15 }}>
 				<Text style={styles.offerText}>Offers for you</Text>
 				<ScrollView horizontal showsHorizontalScrollIndicator={false}>

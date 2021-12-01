@@ -10,12 +10,13 @@ import appColors from '../../utils/appColors';
 import getIcon from '../../utils/commonfunctions/getIcon';
 import GradePopup from '../../components/GradePopup';
 import store from '../../redux/store';
-import { getUpcomingCourses } from '../../redux/root.actions';
+import { getTopics, getUpcomingCourses } from '../../redux/root.actions';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import ClassLoader from '../../components/loaders/ClassLoader';
 import { NODATAFOUND } from '../../utils/constants';
 import getPictures from '../../utils/commonfunctions/getPictures';
 import NoDataFound from '../../components/NoDataFound';
+import TopicLoader from '../../components/loaders/TopicLoader';
 
 export const Home = (props) => {
 	const categories = store.getState().auth.categoryDetails;
@@ -23,6 +24,8 @@ export const Home = (props) => {
 	const [ selectedGrade, setSelectedGrade ] = useState(null);
 	const [ selectedGradeLabel, setSelectedGradeLabel ] = useState(null);
 	const [ upcomingClasses, setUpcomingClasses ] = useState(null);
+	const [ topics, setTopics ] = useState(null);
+
 	React.useEffect(() => {
 		let isActive = true;
 		// BackHandler.addEventListener('hardwareBackPress', backAction);
@@ -41,6 +44,17 @@ export const Home = (props) => {
 				if (response) {
 					setUpcomingClasses(response);
 					console.log(response, 'Upcoming:::::::::');
+				}
+			},
+			false
+		);
+		props.getTopics(
+			null,
+			(res) => {
+				const response = res.data;
+				if (response) {
+					setTopics(response);
+					console.log(response, 'topics:::::::::');
 				}
 			},
 			false
@@ -129,42 +143,36 @@ export const Home = (props) => {
 						showsHorizontalScrollIndicator={false}
 						contentContainerStyle={{ marginTop: 15 }}
 					>
-						<TouchableOpacity
-							onPress={() => props.navigation.navigate('TopicView')}
-							style={styles.divisionInnerCard}
-						>
-							<Image resizeMode="stretch" source={appImages.otherImages.ONETOONE} style={styles.topImg} />
-							<Text style={styles.divisionSub}>Maths</Text>
-						</TouchableOpacity>
-
-						<TouchableOpacity
-							onPress={() => props.navigation.navigate('TopicView')}
-							style={styles.divisionInnerCard}
-						>
-							<Image resizeMode="stretch" source={appImages.otherImages.ONETOONE} style={styles.topImg} />
-							<Text style={styles.divisionSub}>Social</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => props.navigation.navigate('TopicView')}
-							style={styles.divisionInnerCard}
-						>
-							<Image resizeMode="stretch" source={appImages.otherImages.ONETOONE} style={styles.topImg} />
-							<Text style={styles.divisionSub}>Economy</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => props.navigation.navigate('TopicView')}
-							style={styles.divisionInnerCard}
-						>
-							<Image resizeMode="stretch" source={appImages.otherImages.ONETOONE} style={styles.topImg} />
-							<Text style={styles.divisionSub}>English</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => props.navigation.navigate('TopicView')}
-							style={styles.divisionInnerCard}
-						>
-							<Image resizeMode="stretch" source={appImages.otherImages.ONETOONE} style={styles.topImg} />
-							<Text style={styles.divisionSub}>History</Text>
-						</TouchableOpacity>
+						{topics ? topics.length != 0 ? (
+							topics.map((top, i) => {
+								return (
+									<TouchableOpacity
+										key={i}
+										onPress={() => props.navigation.navigate('TopicView')}
+										style={styles.divisionInnerCard}
+									>
+										<Image
+											resizeMode="stretch"
+											source={
+												top.thumbnail ? { uri: top.thumbnail } : appImages.otherImages.ONETOONE
+											}
+											style={styles.topImg}
+										/>
+										<Text style={styles.divisionSub}>{top.title}</Text>
+									</TouchableOpacity>
+								);
+							})
+						) : (
+							<NoDataFound />
+						) : (
+							[ 1, 2, 3, 4, 5 ].map((el, i) => {
+								return (
+									<Fragment key={i}>
+										<TopicLoader style={{ left: 10 }} />
+									</Fragment>
+								);
+							})
+						)}
 					</ScrollView>
 				</View>
 				<View style={{ ...styles.divisionalCard, height: 250, backgroundColor: appColors.white }}>
@@ -249,7 +257,7 @@ export const Home = (props) => {
 
 										<Text style={styles.subTitle}>{course.title}</Text>
 										<Text style={styles.divisionSub}>{course.slug}</Text>
-										<Text style={styles.divisionSub}>{course.publishedDate}5.37 PM</Text>
+										<Text style={styles.divisionSub}>{course.publishedDateTime}</Text>
 									</View>
 								);
 							})
@@ -275,6 +283,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		getUpcomingCourses: (requestData, onResponse, showSnackBar) => {
 			dispatch(getUpcomingCourses(requestData, onResponse, showSnackBar));
+		},
+		getTopics: (requestData, onResponse, showSnackBar) => {
+			dispatch(getTopics(requestData, onResponse, showSnackBar));
 		}
 	};
 };

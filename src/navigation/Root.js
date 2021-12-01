@@ -38,6 +38,7 @@ import Support from '../screens/otherscreens/Support';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Feedback from '../screens/otherscreens/Feedback';
+import EcomRegister from '../screens/authScreens/EcomRegister';
 
 const Stack = createStackNavigator();
 
@@ -198,6 +199,18 @@ const RootNavigation = (props) => {
 					options={{
 						headerShown: true,
 						headerTitle: 'Registration',
+						headerTitleStyle: { color: appColors.white },
+						headerStyle: { backgroundColor: appColors.primaryColor },
+
+						headerLeft: () => <HeaderLeft back />
+					}}
+				/>
+				<Stack.Screen
+					name="EcomRegisterScreen"
+					component={EcomRegister}
+					options={{
+						headerShown: true,
+						headerTitle: 'EcomRegisterScreen',
 						headerTitleStyle: { color: appColors.white },
 						headerStyle: { backgroundColor: appColors.primaryColor },
 

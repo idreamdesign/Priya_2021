@@ -40,16 +40,16 @@ export const PaymentHistory = (props) => {
 					console.log(el, 'El');
 					return (
 						<View key={i} style={styles.paymentCardContainer}>
-							<Text style={styles.categoryName}>Category name</Text>
-							<Text style={styles.subCatName1}>Category name</Text>
-							<Text style={styles.subCatName2}>Category name</Text>
+							<Text style={styles.categoryName}>{el?.course?.title}</Text>
+							<Text style={styles.subCatName1}>{el?.course?.category?.name}</Text>
+							<Text style={styles.subCatName2}>{el?.course?.duration} hours</Text>
 							<View style={styles.modeContainer}>
 								<View style={styles.voucherCard}>
 									<Text style={styles.voucherTitle}>RM {el.checkout.purchase_price}</Text>
 								</View>
 								<Text>{el.checkout.payment_method}</Text>
 							</View>
-							<Text style={styles.subCatName3}>Category name</Text>
+							<Text style={styles.subCatName3}>{el?.enrolledDate}</Text>
 						</View>
 					);
 				})

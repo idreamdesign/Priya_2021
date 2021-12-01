@@ -37,6 +37,19 @@ export const getUpcomingCourses = (requestData, onResponse, showSnackBar) => {
 		);
 	};
 };
+export const getTopics = (requestData, onResponse, showSnackBar) => {
+	console.log(requestData, 'requestDatarequestData');
+	return (dispatch) => {
+		RequestService.get(
+			Endpoints.GET_TOPICS,
+			requestData,
+			(response) => {
+				onResponse(response);
+			},
+			showSnackBar
+		);
+	};
+};
 export const getMyCourses = (requestData, onResponse, showSnackBar) => {
 	console.log(requestData, 'requestDatarequestData');
 	return (dispatch) => {

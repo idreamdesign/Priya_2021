@@ -66,9 +66,9 @@ export const RoleSelectionScreen = (props) => {
 					<Image source={appImages.appImages.ECOM} style={styles.roleImg} />
 					<TouchableOpacity
 						onPress={async () => {
-							// await AsyncStorage.setItem(ROLESELECTED, 'ecom');
-							// store.dispatch(storeRoleDetails('ecom'));
-							// props.navigation.navigate('LoginScreen', { from: 'ecom' });
+							await AsyncStorage.setItem(ROLESELECTED, 'ecom');
+							store.dispatch(storeRoleDetails('ecom'));
+							props.navigation.navigate('LoginScreen', { from: 'ecom' });
 						}}
 						style={styles.roleNameContainer}
 					>

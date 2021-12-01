@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
+
 	categoryHeading: { width: '100%', justifyContent: 'space-between', flexDirection: 'row' },
 	categoryTitle: {
 		fontWeight: 'bold',
@@ -156,7 +157,35 @@ const styles = StyleSheet.create({
 	nearRestName: {
 		marginTop: 5,
 		fontSize: 14
+	},
+	//lms
+	locationContainer: {
+		height: 40,
+		width: '100%',
+		backgroundColor: appColors.primaryColor,
+		paddingLeft: 15,
+		paddingTop: 10,
+		display: 'flex',
+		flexDirection: 'row'
+	},
+	locationText: {
+		fontSize: 16,
+		fontWeight: '00',
+		color: appColors.white
+	},
+	tabsContainer: {
+		padding: 10,
+		backgroundColor: appColors.paleBlue
+	},
+	tabs: {
+		borderWidth: 1,
+		borderColor: appColors.smokyBlack,
+		borderRadius: 5,
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center'
 	}
+	//lms
 });
 
 export default styles;

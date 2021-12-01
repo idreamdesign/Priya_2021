@@ -106,7 +106,7 @@ const SideMenu = (props) => {
 						<Text style={basicStyles.description}> Payment History </Text>
 					</TouchableOpacity>
 				</View>
-				<View style={{ marginBottom: 20 }}>
+				{/* <View style={{ marginBottom: 20 }}>
 					<TouchableOpacity
 						style={basicStyles.swithBlock}
 						onPress={() => {
@@ -119,7 +119,7 @@ const SideMenu = (props) => {
 						</View>
 						<Text style={basicStyles.description}> Settings </Text>
 					</TouchableOpacity>
-				</View>
+				</View> */}
 				<View style={{ marginBottom: 20 }}>
 					<TouchableOpacity
 						style={basicStyles.swithBlock}

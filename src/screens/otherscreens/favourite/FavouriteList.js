@@ -41,14 +41,14 @@ export const FavouriteList = (props) => {
 			{myFavCourses ? myFavCourses.length == 0 ? (
 				<NoDataFound />
 			) : (
-				Array.from(Array(10).keys()).map((el, i) => {
+				myFavCourses.map((el, i) => {
 					return (
 						<View key={i} style={styles.courseCard}>
 							<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-								<Text style={styles.cardTitle}>Pre Recorded class</Text>
+								<Text style={styles.cardTitle}>{el?.course?.sub_category?.name}</Text>
 								{getIcon('mi', 'delete', null, 30, appColors.grey)}
 							</View>
-							<Text style={styles.cardSubTitle}>10th maths - chapter 01</Text>
+							<Text style={styles.cardSubTitle}>{el?.course?.title} - chapter 01</Text>
 							<View style={styles.classDetailsContainer}>
 								<Image style={styles.classImage} source={appImages.otherImages.TEACHING} />
 								<View style={styles.classDesc}>
