@@ -1,9 +1,6 @@
 rootProject.name = 'eLearningDjeli'
-<<<<<<< HEAD
-=======
 include ':react-native-geocoder'
 project(':react-native-geocoder').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-geocoder/android')
->>>>>>> master
 include ':@react-native-masked-view_masked-view'
 project(':@react-native-masked-view_masked-view').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-masked-view/masked-view/android')
 include ':react-native-image-crop-picker'
@@ -14,8 +11,5 @@ include ':react-native-vector-icons'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
-<<<<<<< HEAD
-=======
 include ':react-native-geocoder', ':app'
 project(':react-native-geocoder').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-geocoder/android')
->>>>>>> master
