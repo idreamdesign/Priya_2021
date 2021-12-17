@@ -3,3 +3,11 @@ export const GET_USER_DETAILS = 'NEW_USER_DETAILS';
 export const TOKEN = 'TOKEN';
 export const GRADE_LIST = 'GRADE_LIST';
 export const CATEGORY_LIST = 'CATEGORY_LIST';
+<<<<<<< HEAD
+=======
+export const GET_LOADING_STATUS = 'GET_LOADING_STATUS';
+export const GET_SELECTED_SHOP = 'GET_SELECTED_SHOP';
+export const GET_SELECTED_ADDRESS = 'GET_SELECTED_ADDRESS';
+export const GET_NOTIFICATION_COUNT = 'GET_NOTIFICATION_COUNT';
+export const GET_CART_COUNT = 'GET_CART_COUNT';
+>>>>>>> master

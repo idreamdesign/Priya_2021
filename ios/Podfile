@@ -18,6 +18,8 @@ target 'eLearningDjeli' do
 
   pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
+  pod 'react-native-geocoder', :path => '../node_modules/react-native-geocoder'
+
   target 'eLearningDjeliTests' do
     inherit! :complete
     # Pods for testing
